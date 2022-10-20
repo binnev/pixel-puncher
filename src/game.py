@@ -38,9 +38,8 @@ class PixelPuncher(Game):
             self.controller0,
             self.controller1,
         ]
-        from src.menus import MainMenu
-
-        self.add_scene(MainMenu())
+        from src.scenes import SandBox
+        self.add_scene(SandBox())
 
     def read_inputs(self):
         super().read_inputs()
