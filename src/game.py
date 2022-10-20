@@ -2,7 +2,7 @@ from pathlib import Path
 
 from robingame.input import GamecubeController
 
-from record_decorator import record
+from robingame.recording import record
 from src import conf
 from robingame.objects import Game
 from src.inputs import Keyboard0, Keyboard1
