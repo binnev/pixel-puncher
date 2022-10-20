@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from robingame.input import GamecubeController
 
 from record_decorator import record
@@ -6,6 +8,10 @@ from robingame.objects import Game
 from src.inputs import Keyboard0, Keyboard1
 
 
+@record(
+    n_frames=60*10,
+    output_dir=Path(__file__).parent.parent / "recordings",
+)
 class PixelPuncher(Game):
     fps = conf.FPS
     window_width = conf.SCREEN_WIDTH
@@ -40,10 +46,6 @@ class PixelPuncher(Game):
         super().read_inputs()
         for device in self.input_devices:
             device.read_new_inputs()
-
-    @record
-    def main(self):
-        super().main()
 
 
 if __name__ == "__main__":
