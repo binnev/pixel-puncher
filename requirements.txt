@@ -1,0 +1,8 @@
+pygame
+numpy
+black
+pytest
+coverage
+pytest-cov
+dataclasses-json
+robingame==0.0.4
