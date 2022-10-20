@@ -9,7 +9,7 @@ from src.inputs import Keyboard0, Keyboard1
 
 
 @record(
-    n_frames=60*10,
+    n_frames=60 * 10,
     output_dir=Path(__file__).parent.parent / "recordings",
 )
 class PixelPuncher(Game):

@@ -2,3 +2,4 @@ venv
 .idea*
 .style*
 recordings/*
+readme-media/*
