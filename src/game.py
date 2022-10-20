@@ -1,4 +1,6 @@
 from robingame.input import GamecubeController
+
+from record_decorator import record
 from src import conf
 from robingame.objects import Game
 from src.inputs import Keyboard0, Keyboard1
@@ -38,6 +40,10 @@ class PixelPuncher(Game):
         super().read_inputs()
         for device in self.input_devices:
             device.read_new_inputs()
+
+    @record
+    def main(self):
+        super().main()
 
 
 if __name__ == "__main__":
