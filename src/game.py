@@ -1,11 +1,11 @@
 from pathlib import Path
 
 from robingame.input import GamecubeController
-
-from robingame.recording import record
-from src import conf
 from robingame.objects import Game
-from src.inputs import Keyboard0, Keyboard1
+from robingame.recording import record
+
+from . import conf
+from .inputs import Keyboard0, Keyboard1
 
 
 @record(
@@ -38,7 +38,8 @@ class PixelPuncher(Game):
             self.controller0,
             self.controller1,
         ]
-        from src.scenes import SandBox
+        from .scenes import SandBox
+
         self.add_scene(SandBox())
 
     def read_inputs(self):
