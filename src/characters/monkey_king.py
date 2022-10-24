@@ -1,5 +1,3 @@
-from copy import copy
-
 import pygame
 from pygame import Color, Surface
 
@@ -8,31 +6,30 @@ from src.characters import Character, AerialMove, Move
 from src.hitboxes import Hitbox
 from src.inputs import FightingGameInput
 from src.projectiles.falco_laser import FalcoLaser
-from src.sprites.hawko import hawko_sprites
 from src.sprites.monkey_king import monkey_king_sprites
 
 
 class MonkeyKing(Character):
-    mass = 10
-    width = 50
+    mass = 20
+    width = 90
     height = 100
     color = Color("cyan")
-    ground_acceleration = 5
+    ground_acceleration = 6
     walk_speed = 5
-    run_speed = 7.8
+    run_speed = 9
     initial_dash_duration = 16
     run_turnaround_duration = 10
     air_acceleration = 0.75
-    air_speed = 5
-    gravity = 0.7
+    air_speed = 5.5
+    gravity = 0.6
     jump_speed = 15
-    aerial_jump_speed = 20
+    aerial_jump_speed = 13
     shorthop_speed = 7.5
     air_resistance = 0.01
-    friction = 0.7
+    friction = .8
     fall_speed = 10
     fast_fall_speed = 18
-    jumpsquat_frames = 5
+    jumpsquat_frames = 7
     max_aerial_jumps = 1
     max_air_dodges = 1
     max_wall_jumps = 1
@@ -237,6 +234,7 @@ class MonkeyKing(Character):
                 knockback_growth=15,
                 damage=10,
                 sound=sounds.smack,
+                higher_priority_sibling=zeroth_hit,
             )
             second_hit = Hitbox(
                 owner=character,

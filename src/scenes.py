@@ -6,8 +6,8 @@ from robingame.objects import Entity, Group
 from src import characters
 from src.levels import Battlefield
 
-char1 = characters.MonkeyKing
-char2 = characters.Hawko
+char2 = characters.MonkeyKing
+char1 = characters.Hawko
 
 class SandBox(Entity):
     """Sandbox scene to try stuff out"""
@@ -27,9 +27,7 @@ class SandBox(Entity):
         self.level = Battlefield()
         self.levels.add(self.level)  # didn't pass a ref to self.
         self.players.add(char1(600, 500, input=self.game.controller0))
-        self.enemies.add(
-            char2(1000, 500, facing_right=False, input=self.game.controller1)
-        )
+        self.enemies.add(char2(1000, 500, facing_right=False, input=self.game.controller1))
         self.level.add_character(*self.players, *self.enemies)
         self.state = self.state_main
 
@@ -37,9 +35,7 @@ class SandBox(Entity):
         from src.menus import MainMenu
 
         if not self.enemies:
-            self.enemies.add(
-                char2(1000, 500, facing_right=False, input=self.game.controller1)
-            )
+            self.enemies.add(char2(1000, 500, facing_right=False, input=self.game.controller1))
             self.level.add_character(*self.enemies)
         if not self.players:
             self.players.add(char1(600, 500, input=self.game.controller0))

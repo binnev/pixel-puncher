@@ -25,7 +25,7 @@ class Character(PhysicalEntity):
     initial_dash_duration: int
     run_turnaround_duration: int
     air_dodge_duration: int = 30
-    air_dodge_speed: float = 20
+    air_dodge_speed: float = 15
     air_acceleration: float
     air_speed: float
     jump_speed: float
