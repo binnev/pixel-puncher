@@ -22,11 +22,11 @@ class MonkeyKing(Character):
     air_acceleration = 0.75
     air_speed = 5.5
     gravity = 0.6
-    jump_speed = 15
+    jump_speed = 13
     aerial_jump_speed = 13
     shorthop_speed = 7.5
     air_resistance = 0.01
-    friction = .8
+    friction = 0.8
     fall_speed = 10
     fast_fall_speed = 18
     jumpsquat_frames = 7

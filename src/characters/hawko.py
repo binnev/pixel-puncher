@@ -24,8 +24,8 @@ class Hawko(Character):
     air_acceleration = 0.75
     air_speed = 5
     gravity = 0.7
-    jump_speed = 15
-    aerial_jump_speed = 20
+    jump_speed = 17
+    aerial_jump_speed = 13
     shorthop_speed = 7.5
     air_resistance = 0.01
     friction = 0.7
