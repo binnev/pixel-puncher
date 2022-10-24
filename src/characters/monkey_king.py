@@ -401,41 +401,53 @@ class MonkeyKing(Character):
 
     class UpTilt(Move):
         def __init__(self, character: Character):
-            low = Hitbox(
+            hit1 = Hitbox(
                 owner=character,
-                x_offset=-15,
-                y_offset=10,
-                width=60,
+                x_offset=45,
+                y_offset=-20,
+                width=80,
                 height=40,
-                rotation=-30,
+                rotation=-45,
                 base_knockback=15,
                 knockback_angle=95,
                 knockback_growth=8,
                 damage=8,
             )
-            high = Hitbox(
+            hit2 = Hitbox(
                 owner=character,
-                x_offset=0,
-                y_offset=-15,
-                width=50,
-                height=60,
-                rotation=0,
+                x_offset=-20,
+                y_offset=-30,
+                width=130,
+                height=80,
+                rotation=10,
                 base_knockback=15,
                 knockback_angle=95,
                 knockback_growth=8,
                 damage=8,
-                higher_priority_sibling=low,
+                higher_priority_sibling=hit1,
+            )
+            hit3 = Hitbox(
+                owner=character,
+                x_offset=-70,
+                y_offset=0,
+                width=40,
+                height=60,
+                rotation=10,
+                base_knockback=15,
+                knockback_angle=105,
+                knockback_growth=8,
+                damage=8,
+                higher_priority_sibling=hit2,
             )
             sprite = character.sprites[f"utilt_{character.facing}"]
             images = sprite.images
 
             self.frame_mapping = [
                 {"image": images[0], "hitboxes": []},
-                {"image": images[2], "hitboxes": [low]},
-                {"image": images[4], "hitboxes": [high]},
-                {"image": images[5], "hitboxes": []},
-                {"image": images[6], "hitboxes": []},
-                {"image": images[7], "hitboxes": []},
+                {"image": images[1], "hitboxes": [hit1]},
+                {"image": images[2], "hitboxes": [hit2, hit3]},
+                {"image": images[2], "hitboxes": [hit2, hit3]},
+                {"image": images[3], "hitboxes": []},
             ]
             super().__init__(character)
 
