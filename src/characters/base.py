@@ -387,7 +387,7 @@ class Character(PhysicalEntity):
             self.wall_jump()
 
     def state_crouch(self):
-        self.image = self.sprites["crouch_" + self.facing].loop(self.animation_frame)
+        self.image = self.sprites["crouch_" + self.facing].play_once(self.animation_frame)
         input = self.input
         if self.airborne:
             self.state = self.state_fall
@@ -832,7 +832,7 @@ class Character(PhysicalEntity):
 
     def landing_lag(self, ticks):
         def func():
-            self.image = self.sprites["crouch_" + self.facing].loop(self.animation_frame)
+            self.image = self.sprites["crouch_" + self.facing].play_once(self.animation_frame)
             if (self.tick == ticks) or (ticks == 0):
                 self.state = self.state_stand
 

@@ -20,7 +20,7 @@ class MoveViewer(Game):
     parental_name = "game"
     screen_color = pygame.Color("gray")
     character_class = characters.MonkeyKing
-    move_class = characters.MonkeyKing.Jab
+    move_class = characters.MonkeyKing.ForwardTilt
 
     def __init__(self):
         super().__init__()

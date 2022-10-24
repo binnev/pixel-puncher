@@ -531,22 +531,22 @@ class MonkeyKing(Character):
         def __init__(self, character: Character):
             sweet_spot = Hitbox(
                 owner=character,
-                x_offset=50,
-                y_offset=40,
-                width=30,
-                height=20,
+                x_offset=65,
+                y_offset=27,
+                width=50,
+                height=25,
                 rotation=0,
                 base_knockback=10,
-                knockback_angle=80,
+                knockback_angle=10,
                 knockback_growth=13,
                 damage=10,
-                sound=sounds.sword_hit,
+                sound=sounds.smack,
             )
             sour_spot = Hitbox(
                 owner=character,
                 x_offset=10,
                 y_offset=30,
-                width=30,
+                width=60,
                 height=30,
                 rotation=0,
                 base_knockback=5,
@@ -554,45 +554,49 @@ class MonkeyKing(Character):
                 knockback_growth=8,
                 damage=4,
                 higher_priority_sibling=sweet_spot,
-                sound=sounds.sword_hit2,
+                sound=sounds.smack,
             )
             sprite = character.sprites[f"dtilt_{character.facing}"]
             images = sprite.images
 
             self.frame_mapping = [
-                {"image": images[0]},
-                {"image": images[1]},
-                {"image": images[3], "hitboxes": [sweet_spot, sour_spot]},
-                {"image": images[4], "hitboxes": [sweet_spot, sour_spot]},
-                {"image": images[5]},
+                dict(image=images[0]),
+                dict(image=images[1]),
+                dict(image=images[2], hitboxes=[sweet_spot, sour_spot]),
+                dict(image=images[3], hitboxes=[sweet_spot, sour_spot]),
+                dict(image=images[4]),
+                dict(image=images[4]),
             ]
             super().__init__(character)
+
+        def get_next_state(self):
+            return self.character.state_crouch
 
     class ForwardTilt(Move):
         def __init__(self, character: Character):
             sweet_spot = Hitbox(
                 owner=character,
-                x_offset=30,
-                y_offset=15,
-                width=60,
-                height=30,
-                rotation=0,
+                x_offset=35,
+                y_offset=10,
+                width=130,
+                height=40,
+                rotation=5,
                 base_knockback=8,
                 knockback_angle=10,
                 knockback_growth=8,
-                damage=20,
+                damage=10,
             )
             sour_spot = Hitbox(
                 owner=character,
-                x_offset=30,
-                y_offset=15,
-                width=60,
-                height=30,
+                x_offset=-15,
+                y_offset=-40,
+                width=120,
+                height=40,
                 rotation=0,
                 base_knockback=4,
-                knockback_angle=10,
-                knockback_growth=8,
-                damage=10,
+                knockback_angle=140,
+                knockback_growth=3,
+                damage=6,
                 higher_priority_sibling=sweet_spot,
             )
             sprite = character.sprites[f"ftilt_{character.facing}"]
@@ -600,9 +604,10 @@ class MonkeyKing(Character):
 
             self.frame_mapping = [
                 {"image": images[0], "hitboxes": []},
-                {"image": images[1], "hitboxes": [sweet_spot]},
-                {"image": images[2], "hitboxes": [sour_spot]},
-                {"image": images[3], "hitboxes": []},
+                {"image": images[1], "hitboxes": []},
+                {"image": images[2], "hitboxes": [sweet_spot]},
+                {"image": images[3], "hitboxes": [sour_spot]},
+                {"image": images[4], "hitboxes": []},
                 {"image": images[4], "hitboxes": []},
             ]
             super().__init__(character)
