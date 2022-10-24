@@ -108,19 +108,6 @@ class MonkeyKing(Character):
                 knockback_growth=10,
                 damage=15,
             )
-            wap2 = Hitbox(
-                owner=character,
-                x_offset=65,
-                y_offset=-10,
-                width=60,
-                height=110,
-                rotation=0,
-                base_knockback=20,
-                knockback_angle=10,
-                knockback_growth=10,
-                damage=15,
-                higher_priority_sibling=wap,
-            )
             spike = Hitbox(
                 owner=character,
                 y_offset=30,
@@ -132,7 +119,20 @@ class MonkeyKing(Character):
                 knockback_angle=-80,
                 knockback_growth=15,
                 damage=15,
-                lower_priority_sibling=wap2,
+                higher_priority_sibling=wap,
+            )
+            wap2 = Hitbox(
+                owner=character,
+                x_offset=65,
+                y_offset=-10,
+                width=60,
+                height=110,
+                rotation=0,
+                base_knockback=20,
+                knockback_angle=10,
+                knockback_growth=10,
+                damage=15,
+                higher_priority_sibling=spike,
             )
             sprite = character.sprites[f"fair_{character.facing}"]
             images = sprite.images
@@ -158,21 +158,21 @@ class MonkeyKing(Character):
         def __init__(self, character: Character):
             sweet_spot = Hitbox(
                 owner=character,
-                x_offset=-30,
+                x_offset=-50,
                 y_offset=10,
-                width=40,
-                height=30,
+                width=80,
+                height=40,
                 rotation=0,
                 base_knockback=10,
-                knockback_angle=150,
+                knockback_angle=170,
                 knockback_growth=10,
                 damage=10,
             )
             sour_spot = Hitbox(
                 owner=character,
-                x_offset=-30,
+                x_offset=-50,
                 y_offset=10,
-                width=40,
+                width=60,
                 height=30,
                 rotation=0,
                 base_knockback=5,
@@ -183,11 +183,11 @@ class MonkeyKing(Character):
             )
             weak_front = Hitbox(
                 owner=character,
-                x_offset=30,
-                y_offset=30,
-                width=40,
-                height=20,
-                rotation=-30,
+                x_offset=20,
+                y_offset=25,
+                width=30,
+                height=40,
+                rotation=0,
                 base_knockback=3,
                 knockback_angle=45,
                 knockback_growth=2,
@@ -198,25 +198,38 @@ class MonkeyKing(Character):
             images = sprite.images
 
             self.frame_mapping = [
-                {"image": images[0], "hitboxes": [sweet_spot, weak_front]},
-                {"image": images[0], "hitboxes": [sweet_spot, weak_front]},
-                {"image": images[0], "hitboxes": [sweet_spot, weak_front]},
-                {"image": images[0], "hitboxes": [sour_spot, weak_front]},
-                {"image": images[0], "hitboxes": [sour_spot, weak_front]},
-                {"image": images[0], "hitboxes": [sour_spot, weak_front]},
-                {"image": images[0], "hitboxes": [sour_spot, weak_front]},
-                {"image": images[0], "hitboxes": [sour_spot, weak_front]},
+                {"image": images[0], "hitboxes": []},
+                {"image": images[1], "hitboxes": []},
+                {"image": images[2], "hitboxes": [sweet_spot, weak_front]},
+                {"image": images[2], "hitboxes": [sour_spot, weak_front]},
+                {"image": images[2], "hitboxes": [sour_spot, weak_front]},
+                {"image": images[2], "hitboxes": [sour_spot, weak_front]},
+                {"image": images[1], "hitboxes": []},
             ]
             super().__init__(character)
 
     class UpAir(AerialMove):
-        landing_lag = 5
+        landing_lag = 2
 
         def __init__(self, character: Character):
+            zeroth_hit = Hitbox(
+                owner=character,
+                x_offset=-45,
+                y_offset=-40,
+                width=40,
+                height=50,
+                rotation=0,
+                base_knockback=10,
+                knockback_angle=80,
+                knockback_growth=15,
+                damage=10,
+                sound=sounds.smack,
+            )
             first_hit = Hitbox(
                 owner=character,
-                y_offset=-60,
-                width=80,
+                x_offset=5,
+                y_offset=-55,
+                width=100,
                 height=50,
                 rotation=0,
                 base_knockback=10,
@@ -228,16 +241,16 @@ class MonkeyKing(Character):
             second_hit = Hitbox(
                 owner=character,
                 x_offset=40,
-                y_offset=-40,
+                y_offset=-10,
                 width=60,
-                height=50,
+                height=70,
                 rotation=0,
                 base_knockback=10,
                 knockback_angle=90,
                 knockback_growth=15,
                 damage=10,
                 sound=sounds.smack,
-                higher_priority_sibling=first_hit
+                higher_priority_sibling=first_hit,
             )
             sprite = character.sprites[f"uair_{character.facing}"]
             images = sprite.images
@@ -245,6 +258,7 @@ class MonkeyKing(Character):
             self.frame_mapping = [
                 {"image": images[0], "hitboxes": []},
                 {"image": images[1], "hitboxes": []},
+                {"image": images[1], "hitboxes": [zeroth_hit]},
                 {"image": images[2], "hitboxes": [first_hit]},
                 {"image": images[3], "hitboxes": [second_hit]},
                 {"image": images[3], "hitboxes": []},
@@ -259,15 +273,44 @@ class MonkeyKing(Character):
         def __init__(self, character: Character):
             sweet_spot = Hitbox(
                 owner=character,
+                x_offset=10,
                 y_offset=30,
                 width=60,
                 height=60,
                 rotation=0,
                 base_knockback=10,
-                knockback_angle=280,
+                knockback_angle=270,
                 knockback_growth=15,
                 damage=20,
                 sound=sounds.bighit,
+            )
+            sweet_spot2 = Hitbox(
+                owner=character,
+                x_offset=5,
+                y_offset=40,
+                width=60,
+                height=70,
+                rotation=0,
+                base_knockback=10,
+                knockback_angle=270,
+                knockback_growth=15,
+                damage=20,
+                sound=sounds.bighit,
+                higher_priority_sibling=sweet_spot,
+            )
+            sour_spot = Hitbox(
+                owner=character,
+                x_offset=5,
+                y_offset=40,
+                width=40,
+                height=50,
+                rotation=0,
+                base_knockback=5,
+                knockback_angle=270,
+                knockback_growth=7,
+                damage=10,
+                sound=sounds.bighit,
+                higher_priority_sibling=sweet_spot2,
             )
             sprite = character.sprites[f"dair_{character.facing}"]
             images = sprite.images
@@ -278,12 +321,12 @@ class MonkeyKing(Character):
                 {"image": images[1], "hitboxes": []},
                 {"image": images[1], "hitboxes": []},
                 {"image": images[2], "hitboxes": [sweet_spot]},
-                {"image": images[3], "hitboxes": [sweet_spot]},
-                {"image": images[3], "hitboxes": [sweet_spot]},
-                {"image": images[3], "hitboxes": [sweet_spot]},
-                {"image": images[3], "hitboxes": [sweet_spot]},
-                {"image": images[3], "hitboxes": []},
-                {"image": images[3], "hitboxes": []},
+                {"image": images[3], "hitboxes": [sweet_spot2]},
+                {"image": images[3], "hitboxes": [sweet_spot2]},
+                {"image": images[3], "hitboxes": [sweet_spot2]},
+                {"image": images[3], "hitboxes": [sweet_spot2]},
+                {"image": images[3], "hitboxes": [sour_spot]},
+                {"image": images[3], "hitboxes": [sour_spot]},
                 {"image": images[3], "hitboxes": []},
                 {"image": images[3], "hitboxes": []},
                 {"image": images[3], "hitboxes": []},
@@ -291,58 +334,70 @@ class MonkeyKing(Character):
             super().__init__(character)
 
     class NeutralAir(AerialMove):
-        landing_lag = 5
+        landing_lag = 2
 
         def __init__(self, character: Character):
-            sweet_spot = Hitbox(
+            front1 = Hitbox(
                 owner=character,
                 x_offset=30,
-                y_offset=20,
-                width=70,
-                height=50,
-                rotation=0,
+                y_offset=0,
+                width=90,
+                height=30,
+                rotation=-10,
                 base_knockback=10,
-                knockback_angle=30,
+                knockback_angle=45,
                 knockback_growth=10,
                 damage=10,
             )
-            sour_spot = Hitbox(
+            back1 = Hitbox(
                 owner=character,
-                x_offset=30,
-                y_offset=20,
+                x_offset=-45,
+                y_offset=-35,
+                width=50,
+                height=30,
+                rotation=-25,
+                base_knockback=5,
+                knockback_angle=90 + 45,
+                knockback_growth=5,
+                damage=5,
+                higher_priority_sibling=front1,
+            )
+            front2 = Hitbox(
+                owner=character,
+                x_offset=50,
+                y_offset=-5,
                 width=70,
-                height=50,
-                rotation=0,
+                height=30,
+                rotation=-15,
                 base_knockback=5,
                 knockback_angle=45,
                 knockback_growth=5,
                 damage=5,
-                higher_priority_sibling=sweet_spot,
+                # higher_priority_sibling=back1,
             )
-            back_weak = Hitbox(
+            back2 = Hitbox(
                 owner=character,
-                x_offset=-30,
-                y_offset=20,
-                width=40,
-                height=50,
-                rotation=-45,
+                x_offset=-45,
+                y_offset=-35,
+                width=50,
+                height=30,
+                rotation=-25,
                 base_knockback=5,
-                knockback_angle=135,
+                knockback_angle=90 + 45,
                 knockback_growth=5,
                 damage=5,
-                higher_priority_sibling=sour_spot,
+                higher_priority_sibling=front2,
             )
             sprite = character.sprites[f"nair_{character.facing}"]
             images = sprite.images
-            image = images[0]
 
             self.frame_mapping = [
-                {"image": image, "hitboxes": [sweet_spot, back_weak]},
-                {"image": image, "hitboxes": [sweet_spot, back_weak]},
-                {"image": image, "hitboxes": [sour_spot, back_weak]},
-                {"image": image, "hitboxes": [sour_spot, back_weak]},
-                {"image": image},
-                {"image": image},
+                dict(image=images[0], hitboxes=[]),
+                dict(image=images[1], hitboxes=[front1, back1]),
+                dict(image=images[2], hitboxes=[]),
+                dict(image=images[3], hitboxes=[]),
+                dict(image=images[4]),
+                dict(image=images[5], hitboxes=[front2, back2]),
             ]
             super().__init__(character)
 
@@ -392,25 +447,26 @@ class MonkeyKing(Character):
         def __init__(self, character: Character):
             sweet_spot = Hitbox(
                 owner=character,
-                x_offset=30,
-                y_offset=0,
+                x_offset=65,
+                y_offset=15,
                 width=40,
                 height=30,
                 rotation=0,
-                base_knockback=30,
+                base_knockback=15,
                 knockback_angle=45,
                 knockback_growth=1,
-                damage=10,
-                sound=sounds.smack3,
+                damage=3,
+                sound=sounds.smack2,
             )
             sprite = character.sprites[f"jab_{character.facing}"]
             images = sprite.images
-            image_hit = images[0]
 
             self.frame_mapping = [
-                {"image": image_hit, "hitboxes": [sweet_spot]},
-                {"image": image_hit},
-                {"image": image_hit},
+                {"image": images[0], "hitboxes": [sweet_spot]},
+                {"image": images[1]},
+                {"image": images[1]},
+                {"image": images[1]},
+                {"image": images[1]},
             ]
             super().__init__(character)
 
