@@ -1,0 +1,7 @@
+- parrying
+- rolls
+- techs
+- b moves 
+- stocks 
+- double jump animations
+- bug: falling through the stage when hitting an enemy and fastfalling (dash attack and hold down when hit)

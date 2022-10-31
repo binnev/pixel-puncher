@@ -25,7 +25,7 @@ class Character(PhysicalEntity):
     initial_dash_duration: int
     run_turnaround_duration: int
     air_dodge_duration: int = 30
-    air_dodge_speed: float = 20
+    air_dodge_speed: float = 15
     air_acceleration: float
     air_speed: float
     jump_speed: float
@@ -387,7 +387,7 @@ class Character(PhysicalEntity):
             self.wall_jump()
 
     def state_crouch(self):
-        self.image = self.sprites["crouch_" + self.facing].loop(self.animation_frame)
+        self.image = self.sprites["crouch_" + self.facing].play_once(self.animation_frame)
         input = self.input
         if self.airborne:
             self.state = self.state_fall
@@ -832,7 +832,7 @@ class Character(PhysicalEntity):
 
     def landing_lag(self, ticks):
         def func():
-            self.image = self.sprites["crouch_" + self.facing].loop(self.animation_frame)
+            self.image = self.sprites["crouch_" + self.facing].play_once(self.animation_frame)
             if (self.tick == ticks) or (ticks == 0):
                 self.state = self.state_stand
 

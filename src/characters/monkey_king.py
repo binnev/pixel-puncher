@@ -1,5 +1,3 @@
-from copy import copy
-
 import pygame
 from pygame import Color, Surface
 
@@ -8,39 +6,49 @@ from src.characters import Character, AerialMove, Move
 from src.hitboxes import Hitbox
 from src.inputs import FightingGameInput
 from src.projectiles.falco_laser import FalcoLaser
-from src.sprites.hawko import hawko_sprites
+from src.sprites.monkey_king import monkey_king_sprites
 
 
-class Hawko(Character):
-    mass = 10
-    width = 50
+class MonkeyKing(Character):
+    mass = 20
+    width = 90
     height = 100
     color = Color("cyan")
-    ground_acceleration = 5
+    ground_acceleration = 6
     walk_speed = 5
-    run_speed = 7.8
+    run_speed = 9
     initial_dash_duration = 16
     run_turnaround_duration = 10
     air_acceleration = 0.75
-    air_speed = 5
-    gravity = 0.7
-    jump_speed = 17
+    air_speed = 5.5
+    gravity = 0.6
+    jump_speed = 13
     aerial_jump_speed = 13
     shorthop_speed = 7.5
     air_resistance = 0.01
-    friction = 0.7
+    friction = 0.8
     fall_speed = 10
     fast_fall_speed = 18
-    jumpsquat_frames = 5
+    jumpsquat_frames = 7
     max_aerial_jumps = 1
     max_air_dodges = 1
     max_wall_jumps = 1
-    sprites = hawko_sprites
+    sprites = monkey_king_sprites
 
     def __init__(self, x, y, input=FightingGameInput, facing_right=True):
         super().__init__(x, y, input, facing_right)
         self.state = self.state_fall
         self.damage = 0
+
+    @property
+    def image_rect(self):
+        """Default is to align the image with the center of the object"""
+        if self.image:
+            image_rect = self.image.get_rect()
+            image_rect.midbottom = self.rect.midbottom
+            return image_rect
+        else:
+            return None
 
     def draw(self, surface: Surface, debug: bool = False):
         super().draw(surface, debug)
@@ -82,48 +90,62 @@ class Hawko(Character):
             )
 
     class ForwardAir(AerialMove):
-        landing_lag = 5
+        landing_lag = 15
 
         def __init__(self, character: Character):
-            sweet_spot = Hitbox(
+            wap = Hitbox(
                 owner=character,
-                x_offset=20,
-                width=80,
-                height=40,
-                rotation=30,
+                x_offset=15,
+                y_offset=-65,
+                width=110,
+                height=50,
+                rotation=15,
                 base_knockback=10,
-                knockback_angle=30,
+                knockback_angle=45,
                 knockback_growth=10,
-                damage=10,
+                damage=15,
             )
-            sour_spot = Hitbox(
+            spike = Hitbox(
                 owner=character,
-                x_offset=20,
+                y_offset=30,
+                x_offset=40,
                 width=80,
                 height=40,
-                rotation=30,
-                base_knockback=5,
-                knockback_angle=45,
-                knockback_growth=5,
-                damage=5,
+                rotation=0,
+                base_knockback=20,
+                knockback_angle=-80,
+                knockback_growth=15,
+                damage=15,
+                higher_priority_sibling=wap,
             )
-            sour_spot2 = copy(sour_spot)
+            wap2 = Hitbox(
+                owner=character,
+                x_offset=65,
+                y_offset=-10,
+                width=60,
+                height=110,
+                rotation=0,
+                base_knockback=20,
+                knockback_angle=10,
+                knockback_growth=10,
+                damage=15,
+                higher_priority_sibling=spike,
+            )
             sprite = character.sprites[f"fair_{character.facing}"]
             images = sprite.images
 
             self.frame_mapping = [
-                {"image": images[0], "hitboxes": [sour_spot]},
-                {"image": images[0], "hitboxes": [sour_spot]},
+                {"image": images[0], "hitboxes": []},
                 {"image": images[1], "hitboxes": []},
-                {"image": images[1], "hitboxes": []},
-                {"image": images[0], "hitboxes": [sour_spot2]},
-                {"image": images[0], "hitboxes": [sour_spot2]},
-                {"image": images[1], "hitboxes": []},
-                {"image": images[1], "hitboxes": []},
-                {"image": images[0], "hitboxes": [sweet_spot]},
-                {"image": images[0], "hitboxes": [sweet_spot]},
-                {"image": images[1], "hitboxes": []},
-                {"image": images[1], "hitboxes": []},
+                {"image": images[2], "hitboxes": []},
+                {"image": images[2], "hitboxes": []},
+                {"image": images[2], "hitboxes": []},
+                {"image": images[3], "hitboxes": [wap]},
+                {"image": images[4], "hitboxes": [wap2, spike]},
+                {"image": images[5], "hitboxes": [spike]},
+                {"image": images[6], "hitboxes": []},
+                {"image": images[7], "hitboxes": []},
+                {"image": images[8], "hitboxes": []},
             ]
             super().__init__(character)
 
@@ -133,21 +155,21 @@ class Hawko(Character):
         def __init__(self, character: Character):
             sweet_spot = Hitbox(
                 owner=character,
-                x_offset=-30,
+                x_offset=-50,
                 y_offset=10,
-                width=40,
-                height=30,
+                width=80,
+                height=40,
                 rotation=0,
                 base_knockback=10,
-                knockback_angle=150,
+                knockback_angle=170,
                 knockback_growth=10,
                 damage=10,
             )
             sour_spot = Hitbox(
                 owner=character,
-                x_offset=-30,
+                x_offset=-50,
                 y_offset=10,
-                width=40,
+                width=60,
                 height=30,
                 rotation=0,
                 base_knockback=5,
@@ -158,11 +180,11 @@ class Hawko(Character):
             )
             weak_front = Hitbox(
                 owner=character,
-                x_offset=30,
-                y_offset=30,
-                width=40,
-                height=20,
-                rotation=-30,
+                x_offset=20,
+                y_offset=25,
+                width=30,
+                height=40,
+                rotation=0,
                 base_knockback=3,
                 knockback_angle=45,
                 knockback_growth=2,
@@ -173,197 +195,259 @@ class Hawko(Character):
             images = sprite.images
 
             self.frame_mapping = [
-                {"image": images[0], "hitboxes": [sweet_spot, weak_front]},
-                {"image": images[0], "hitboxes": [sweet_spot, weak_front]},
-                {"image": images[0], "hitboxes": [sweet_spot, weak_front]},
-                {"image": images[0], "hitboxes": [sour_spot, weak_front]},
-                {"image": images[0], "hitboxes": [sour_spot, weak_front]},
-                {"image": images[0], "hitboxes": [sour_spot, weak_front]},
-                {"image": images[0], "hitboxes": [sour_spot, weak_front]},
-                {"image": images[0], "hitboxes": [sour_spot, weak_front]},
+                {"image": images[0], "hitboxes": []},
+                {"image": images[1], "hitboxes": []},
+                {"image": images[2], "hitboxes": [sweet_spot, weak_front]},
+                {"image": images[2], "hitboxes": [sour_spot, weak_front]},
+                {"image": images[2], "hitboxes": [sour_spot, weak_front]},
+                {"image": images[2], "hitboxes": [sour_spot, weak_front]},
+                {"image": images[1], "hitboxes": []},
             ]
             super().__init__(character)
 
     class UpAir(AerialMove):
-        landing_lag = 5
+        landing_lag = 2
 
         def __init__(self, character: Character):
+            zeroth_hit = Hitbox(
+                owner=character,
+                x_offset=-45,
+                y_offset=-40,
+                width=40,
+                height=50,
+                rotation=0,
+                base_knockback=10,
+                knockback_angle=80,
+                knockback_growth=15,
+                damage=10,
+                sound=sounds.smack,
+            )
             first_hit = Hitbox(
                 owner=character,
-                y_offset=-30,
-                width=50,
-                height=70,
+                x_offset=5,
+                y_offset=-55,
+                width=100,
+                height=50,
                 rotation=0,
                 base_knockback=10,
                 knockback_angle=90,
-                knockback_growth=5,
-                damage=5,
-                sound=None,
+                knockback_growth=15,
+                damage=10,
+                sound=sounds.smack,
+                higher_priority_sibling=zeroth_hit,
             )
             second_hit = Hitbox(
                 owner=character,
-                y_offset=-30,
-                width=50,
+                x_offset=40,
+                y_offset=-10,
+                width=60,
                 height=70,
                 rotation=0,
                 base_knockback=10,
                 knockback_angle=90,
-                knockback_growth=10,
+                knockback_growth=15,
                 damage=10,
+                sound=sounds.smack,
+                higher_priority_sibling=first_hit,
             )
             sprite = character.sprites[f"uair_{character.facing}"]
             images = sprite.images
 
             self.frame_mapping = [
                 {"image": images[0], "hitboxes": []},
-                {"image": images[1], "hitboxes": [first_hit]},
-                {"image": images[0], "hitboxes": []},
-                {"image": images[2], "hitboxes": [second_hit]},
+                {"image": images[1], "hitboxes": []},
+                {"image": images[1], "hitboxes": [zeroth_hit]},
+                {"image": images[2], "hitboxes": [first_hit]},
+                {"image": images[3], "hitboxes": [second_hit]},
                 {"image": images[3], "hitboxes": []},
-                {"image": images[4], "hitboxes": []},
+                {"image": images[3], "hitboxes": []},
+                {"image": images[3], "hitboxes": []},
             ]
             super().__init__(character)
 
     class DownAir(AerialMove):
-        landing_lag = 5
+        landing_lag = 15
 
         def __init__(self, character: Character):
             sweet_spot = Hitbox(
                 owner=character,
+                x_offset=10,
                 y_offset=30,
-                width=40,
-                height=40,
+                width=60,
+                height=60,
                 rotation=0,
                 base_knockback=10,
-                knockback_angle=280,
+                knockback_angle=270,
                 knockback_growth=15,
                 damage=20,
                 sound=sounds.bighit,
             )
+            sweet_spot2 = Hitbox(
+                owner=character,
+                x_offset=5,
+                y_offset=40,
+                width=60,
+                height=70,
+                rotation=0,
+                base_knockback=10,
+                knockback_angle=270,
+                knockback_growth=15,
+                damage=20,
+                sound=sounds.bighit,
+                higher_priority_sibling=sweet_spot,
+            )
             sour_spot = Hitbox(
                 owner=character,
-                y_offset=0,
-                width=60,
-                height=60,
+                x_offset=5,
+                y_offset=40,
+                width=40,
+                height=50,
                 rotation=0,
                 base_knockback=5,
-                knockback_angle=280,
+                knockback_angle=270,
                 knockback_growth=7,
                 damage=10,
-                higher_priority_sibling=sweet_spot,
+                sound=sounds.bighit,
+                higher_priority_sibling=sweet_spot2,
             )
             sprite = character.sprites[f"dair_{character.facing}"]
             images = sprite.images
 
             self.frame_mapping = [
-                {"image": images[0], "hitboxes": [sweet_spot]},
-                {"image": images[1], "hitboxes": [sweet_spot]},
-                {"image": images[2], "hitboxes": [sweet_spot]},
-                {"image": images[3], "hitboxes": [sweet_spot]},
-                {"image": images[0], "hitboxes": [sour_spot]},
-                {"image": images[1], "hitboxes": [sour_spot]},
-                {"image": images[2], "hitboxes": [sour_spot]},
-                {"image": images[3], "hitboxes": [sour_spot]},
                 {"image": images[0], "hitboxes": []},
                 {"image": images[1], "hitboxes": []},
-                {"image": images[2], "hitboxes": []},
+                {"image": images[1], "hitboxes": []},
+                {"image": images[1], "hitboxes": []},
+                {"image": images[2], "hitboxes": [sweet_spot]},
+                {"image": images[3], "hitboxes": [sweet_spot2]},
+                {"image": images[3], "hitboxes": [sweet_spot2]},
+                {"image": images[3], "hitboxes": [sweet_spot2]},
+                {"image": images[3], "hitboxes": [sweet_spot2]},
+                {"image": images[3], "hitboxes": [sour_spot]},
+                {"image": images[3], "hitboxes": [sour_spot]},
+                {"image": images[3], "hitboxes": []},
+                {"image": images[3], "hitboxes": []},
                 {"image": images[3], "hitboxes": []},
             ]
             super().__init__(character)
 
     class NeutralAir(AerialMove):
-        landing_lag = 5
+        landing_lag = 2
 
         def __init__(self, character: Character):
-            sweet_spot = Hitbox(
+            front1 = Hitbox(
                 owner=character,
                 x_offset=30,
-                y_offset=20,
-                width=70,
-                height=50,
-                rotation=0,
+                y_offset=0,
+                width=90,
+                height=30,
+                rotation=-10,
                 base_knockback=10,
-                knockback_angle=30,
+                knockback_angle=45,
                 knockback_growth=10,
                 damage=10,
             )
-            sour_spot = Hitbox(
+            back1 = Hitbox(
                 owner=character,
-                x_offset=30,
-                y_offset=20,
+                x_offset=-45,
+                y_offset=-35,
+                width=50,
+                height=30,
+                rotation=-25,
+                base_knockback=5,
+                knockback_angle=90 + 45,
+                knockback_growth=5,
+                damage=5,
+                higher_priority_sibling=front1,
+            )
+            front2 = Hitbox(
+                owner=character,
+                x_offset=50,
+                y_offset=-5,
                 width=70,
-                height=50,
-                rotation=0,
+                height=30,
+                rotation=-15,
                 base_knockback=5,
                 knockback_angle=45,
                 knockback_growth=5,
                 damage=5,
-                higher_priority_sibling=sweet_spot,
+                # higher_priority_sibling=back1,
             )
-            back_weak = Hitbox(
+            back2 = Hitbox(
                 owner=character,
-                x_offset=-30,
-                y_offset=20,
-                width=40,
-                height=50,
-                rotation=-45,
+                x_offset=-45,
+                y_offset=-35,
+                width=50,
+                height=30,
+                rotation=-25,
                 base_knockback=5,
-                knockback_angle=135,
+                knockback_angle=90 + 45,
                 knockback_growth=5,
                 damage=5,
-                higher_priority_sibling=sour_spot,
+                higher_priority_sibling=front2,
             )
             sprite = character.sprites[f"nair_{character.facing}"]
             images = sprite.images
-            image = images[0]
 
             self.frame_mapping = [
-                {"image": image, "hitboxes": [sweet_spot, back_weak]},
-                {"image": image, "hitboxes": [sweet_spot, back_weak]},
-                {"image": image, "hitboxes": [sour_spot, back_weak]},
-                {"image": image, "hitboxes": [sour_spot, back_weak]},
-                {"image": image},
-                {"image": image},
+                dict(image=images[0], hitboxes=[]),
+                dict(image=images[1], hitboxes=[front1, back1]),
+                dict(image=images[2], hitboxes=[]),
+                dict(image=images[3], hitboxes=[]),
+                dict(image=images[4]),
+                dict(image=images[5], hitboxes=[front2, back2]),
             ]
             super().__init__(character)
 
     class UpTilt(Move):
         def __init__(self, character: Character):
-            low = Hitbox(
+            hit1 = Hitbox(
                 owner=character,
-                x_offset=-15,
-                y_offset=10,
-                width=60,
+                x_offset=45,
+                y_offset=-20,
+                width=80,
                 height=40,
-                rotation=-30,
+                rotation=-45,
                 base_knockback=15,
                 knockback_angle=95,
                 knockback_growth=8,
                 damage=8,
             )
-            high = Hitbox(
+            hit2 = Hitbox(
                 owner=character,
-                x_offset=0,
-                y_offset=-15,
-                width=50,
-                height=60,
-                rotation=0,
+                x_offset=-20,
+                y_offset=-30,
+                width=130,
+                height=80,
+                rotation=10,
                 base_knockback=15,
                 knockback_angle=95,
                 knockback_growth=8,
                 damage=8,
-                higher_priority_sibling=low,
+                higher_priority_sibling=hit1,
+            )
+            hit3 = Hitbox(
+                owner=character,
+                x_offset=-70,
+                y_offset=0,
+                width=40,
+                height=60,
+                rotation=10,
+                base_knockback=15,
+                knockback_angle=105,
+                knockback_growth=8,
+                damage=8,
+                higher_priority_sibling=hit2,
             )
             sprite = character.sprites[f"utilt_{character.facing}"]
             images = sprite.images
 
             self.frame_mapping = [
                 {"image": images[0], "hitboxes": []},
-                {"image": images[2], "hitboxes": [low]},
-                {"image": images[4], "hitboxes": [high]},
-                {"image": images[5], "hitboxes": []},
-                {"image": images[6], "hitboxes": []},
-                {"image": images[7], "hitboxes": []},
+                {"image": images[1], "hitboxes": [hit1]},
+                {"image": images[2], "hitboxes": [hit2, hit3]},
+                {"image": images[2], "hitboxes": [hit2, hit3]},
+                {"image": images[3], "hitboxes": []},
             ]
             super().__init__(character)
 
@@ -373,25 +457,26 @@ class Hawko(Character):
         def __init__(self, character: Character):
             sweet_spot = Hitbox(
                 owner=character,
-                x_offset=30,
-                y_offset=0,
+                x_offset=65,
+                y_offset=15,
                 width=40,
                 height=30,
                 rotation=0,
-                base_knockback=30,
+                base_knockback=15,
                 knockback_angle=45,
                 knockback_growth=1,
-                damage=10,
-                sound=sounds.smack3,
+                damage=3,
+                sound=sounds.smack2,
             )
             sprite = character.sprites[f"jab_{character.facing}"]
             images = sprite.images
-            image_hit = images[0]
 
             self.frame_mapping = [
-                {"image": image_hit, "hitboxes": [sweet_spot]},
-                {"image": image_hit},
-                {"image": image_hit},
+                {"image": images[0], "hitboxes": [sweet_spot]},
+                {"image": images[1]},
+                {"image": images[1]},
+                {"image": images[1]},
+                {"image": images[1]},
             ]
             super().__init__(character)
 
@@ -458,22 +543,22 @@ class Hawko(Character):
         def __init__(self, character: Character):
             sweet_spot = Hitbox(
                 owner=character,
-                x_offset=50,
-                y_offset=40,
-                width=30,
-                height=20,
+                x_offset=65,
+                y_offset=27,
+                width=50,
+                height=25,
                 rotation=0,
                 base_knockback=10,
-                knockback_angle=80,
+                knockback_angle=10,
                 knockback_growth=13,
                 damage=10,
-                sound=sounds.sword_hit,
+                sound=sounds.smack,
             )
             sour_spot = Hitbox(
                 owner=character,
                 x_offset=10,
                 y_offset=30,
-                width=30,
+                width=60,
                 height=30,
                 rotation=0,
                 base_knockback=5,
@@ -481,45 +566,49 @@ class Hawko(Character):
                 knockback_growth=8,
                 damage=4,
                 higher_priority_sibling=sweet_spot,
-                sound=sounds.sword_hit2,
+                sound=sounds.smack,
             )
             sprite = character.sprites[f"dtilt_{character.facing}"]
             images = sprite.images
 
             self.frame_mapping = [
-                {"image": images[0]},
-                {"image": images[1]},
-                {"image": images[3], "hitboxes": [sweet_spot, sour_spot]},
-                {"image": images[4], "hitboxes": [sweet_spot, sour_spot]},
-                {"image": images[5]},
+                dict(image=images[0]),
+                dict(image=images[1]),
+                dict(image=images[2], hitboxes=[sweet_spot, sour_spot]),
+                dict(image=images[3], hitboxes=[sweet_spot, sour_spot]),
+                dict(image=images[4]),
+                dict(image=images[4]),
             ]
             super().__init__(character)
+
+        def get_next_state(self):
+            return self.character.state_crouch
 
     class ForwardTilt(Move):
         def __init__(self, character: Character):
             sweet_spot = Hitbox(
                 owner=character,
-                x_offset=30,
-                y_offset=15,
-                width=60,
-                height=30,
-                rotation=0,
+                x_offset=35,
+                y_offset=10,
+                width=130,
+                height=40,
+                rotation=5,
                 base_knockback=8,
                 knockback_angle=10,
                 knockback_growth=8,
-                damage=20,
+                damage=10,
             )
             sour_spot = Hitbox(
                 owner=character,
-                x_offset=30,
-                y_offset=15,
-                width=60,
-                height=30,
+                x_offset=-15,
+                y_offset=-40,
+                width=120,
+                height=40,
                 rotation=0,
                 base_knockback=4,
-                knockback_angle=10,
-                knockback_growth=8,
-                damage=10,
+                knockback_angle=140,
+                knockback_growth=3,
+                damage=6,
                 higher_priority_sibling=sweet_spot,
             )
             sprite = character.sprites[f"ftilt_{character.facing}"]
@@ -527,9 +616,10 @@ class Hawko(Character):
 
             self.frame_mapping = [
                 {"image": images[0], "hitboxes": []},
-                {"image": images[1], "hitboxes": [sweet_spot]},
-                {"image": images[2], "hitboxes": [sour_spot]},
-                {"image": images[3], "hitboxes": []},
+                {"image": images[1], "hitboxes": []},
+                {"image": images[2], "hitboxes": [sweet_spot]},
+                {"image": images[3], "hitboxes": [sour_spot]},
+                {"image": images[4], "hitboxes": []},
                 {"image": images[4], "hitboxes": []},
             ]
             super().__init__(character)
