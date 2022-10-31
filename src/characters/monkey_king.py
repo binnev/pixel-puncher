@@ -5,7 +5,7 @@ from src import sounds
 from src.characters import Character, AerialMove, Move
 from src.hitboxes import Hitbox
 from src.inputs import FightingGameInput
-from src.projectiles.falco_laser import FalcoLaser
+from src.projectiles.hawko_laser import HawkoLaser
 from src.sprites.monkey_king import monkey_king_sprites
 
 
@@ -652,7 +652,7 @@ class MonkeyKing(Character):
             character = self.character
             if character.tick == 5:
                 character.level.add_projectile(
-                    FalcoLaser(
+                    HawkoLaser(
                         x=character.x,
                         y=character.y + 10,
                         facing_right=character.facing_right,

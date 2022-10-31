@@ -2,8 +2,9 @@
 - rolls
 - techs
 - b moves 
-- stocks 
+- stocks (and stock counter)
 - double jump animations
 - controller thresholding (differentiate walk/run, run/crouch etc)
 - controller visualiser
+- camera for subset of level 
 - bug: falling through the stage when hitting an enemy and fastfalling (dash attack and hold down when hit)

@@ -5,7 +5,7 @@ from src.hitboxes import Hitbox
 from src.projectiles.base import Projectile
 
 
-class FalcoLaser(Projectile):
+class HawkoLaser(Projectile):
     width = 150
     height = 10
     speed = 20

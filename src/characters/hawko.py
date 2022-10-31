@@ -7,7 +7,7 @@ from src import sounds
 from src.characters import Character, AerialMove, Move
 from src.hitboxes import Hitbox
 from src.inputs import FightingGameInput
-from src.projectiles.falco_laser import FalcoLaser
+from src.projectiles.hawko_laser import HawkoLaser
 from src.sprites.hawko import hawko_sprites
 
 
@@ -94,7 +94,7 @@ class Hawko(Character):
                 base_knockback=10,
                 knockback_angle=30,
                 knockback_growth=10,
-                damage=10,
+                damage=9,
             )
             sour_spot = Hitbox(
                 owner=character,
@@ -105,7 +105,7 @@ class Hawko(Character):
                 base_knockback=5,
                 knockback_angle=45,
                 knockback_growth=5,
-                damage=5,
+                damage=3,
             )
             sour_spot2 = copy(sour_spot)
             sprite = character.sprites[f"fair_{character.facing}"]
@@ -141,7 +141,7 @@ class Hawko(Character):
                 base_knockback=10,
                 knockback_angle=150,
                 knockback_growth=10,
-                damage=10,
+                damage=15,
             )
             sour_spot = Hitbox(
                 owner=character,
@@ -153,7 +153,7 @@ class Hawko(Character):
                 base_knockback=5,
                 knockback_angle=135,
                 knockback_growth=5,
-                damage=5,
+                damage=9,
                 higher_priority_sibling=sweet_spot,
             )
             weak_front = Hitbox(
@@ -197,7 +197,7 @@ class Hawko(Character):
                 base_knockback=10,
                 knockback_angle=90,
                 knockback_growth=5,
-                damage=5,
+                damage=6,
                 sound=None,
             )
             second_hit = Hitbox(
@@ -237,7 +237,7 @@ class Hawko(Character):
                 base_knockback=10,
                 knockback_angle=280,
                 knockback_growth=15,
-                damage=20,
+                damage=12,
                 sound=sounds.bighit,
             )
             sour_spot = Hitbox(
@@ -249,7 +249,7 @@ class Hawko(Character):
                 base_knockback=5,
                 knockback_angle=280,
                 knockback_growth=7,
-                damage=10,
+                damage=9,
                 higher_priority_sibling=sweet_spot,
             )
             sprite = character.sprites[f"dair_{character.facing}"]
@@ -285,7 +285,7 @@ class Hawko(Character):
                 base_knockback=10,
                 knockback_angle=30,
                 knockback_growth=10,
-                damage=10,
+                damage=12,
             )
             sour_spot = Hitbox(
                 owner=character,
@@ -297,7 +297,7 @@ class Hawko(Character):
                 base_knockback=5,
                 knockback_angle=45,
                 knockback_growth=5,
-                damage=5,
+                damage=9,
                 higher_priority_sibling=sweet_spot,
             )
             back_weak = Hitbox(
@@ -310,7 +310,7 @@ class Hawko(Character):
                 base_knockback=5,
                 knockback_angle=135,
                 knockback_growth=5,
-                damage=5,
+                damage=9,
                 higher_priority_sibling=sour_spot,
             )
             sprite = character.sprites[f"nair_{character.facing}"]
@@ -339,7 +339,7 @@ class Hawko(Character):
                 base_knockback=15,
                 knockback_angle=95,
                 knockback_growth=8,
-                damage=8,
+                damage=9,
             )
             high = Hitbox(
                 owner=character,
@@ -351,7 +351,7 @@ class Hawko(Character):
                 base_knockback=15,
                 knockback_angle=95,
                 knockback_growth=8,
-                damage=8,
+                damage=9,
                 higher_priority_sibling=low,
             )
             sprite = character.sprites[f"utilt_{character.facing}"]
@@ -381,7 +381,7 @@ class Hawko(Character):
                 base_knockback=30,
                 knockback_angle=45,
                 knockback_growth=1,
-                damage=10,
+                damage=4,
                 sound=sounds.smack3,
             )
             sprite = character.sprites[f"jab_{character.facing}"]
@@ -422,7 +422,7 @@ class Hawko(Character):
                 base_knockback=70,
                 knockback_angle=80,
                 knockback_growth=0,
-                damage=20,
+                damage=9,
                 sound=sounds.sword_hit,
             )
             sour_spot = Hitbox(
@@ -435,7 +435,7 @@ class Hawko(Character):
                 base_knockback=30,
                 knockback_angle=45,
                 knockback_growth=0,
-                damage=10,
+                damage=6,
                 higher_priority_sibling=sweet_spot,
                 sound=sounds.sword_hit2,
             )
@@ -466,7 +466,7 @@ class Hawko(Character):
                 base_knockback=10,
                 knockback_angle=80,
                 knockback_growth=13,
-                damage=10,
+                damage=13,
                 sound=sounds.sword_hit,
             )
             sour_spot = Hitbox(
@@ -479,7 +479,7 @@ class Hawko(Character):
                 base_knockback=5,
                 knockback_angle=80,
                 knockback_growth=8,
-                damage=4,
+                damage=6,
                 higher_priority_sibling=sweet_spot,
                 sound=sounds.sword_hit2,
             )
@@ -507,7 +507,7 @@ class Hawko(Character):
                 base_knockback=8,
                 knockback_angle=10,
                 knockback_growth=8,
-                damage=20,
+                damage=9,
             )
             sour_spot = Hitbox(
                 owner=character,
@@ -519,7 +519,7 @@ class Hawko(Character):
                 base_knockback=4,
                 knockback_angle=10,
                 knockback_growth=8,
-                damage=10,
+                damage=9,
                 higher_priority_sibling=sweet_spot,
             )
             sprite = character.sprites[f"ftilt_{character.facing}"]
@@ -562,7 +562,7 @@ class Hawko(Character):
             character = self.character
             if character.tick == 5:
                 character.level.add_projectile(
-                    FalcoLaser(
+                    HawkoLaser(
                         x=character.x,
                         y=character.y + 10,
                         facing_right=character.facing_right,

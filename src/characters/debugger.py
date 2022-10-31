@@ -7,7 +7,6 @@ from src import sounds
 from src.characters import Character, AerialMove, Move
 from src.hitboxes import Hitbox
 from src.inputs import FightingGameInput
-from src.projectiles.falco_laser import FalcoLaser
 from src.sprites.stickman import stickman_sprites
 
 
@@ -649,7 +648,7 @@ class Debugger(Character):
                 {"image": image_hit},
             ]
             character.level.add_projectile(
-                FalcoLaser(
+                HawkoLaser(
                     x=character.x,
                     y=character.y,
                     facing_right=character.facing_right,
