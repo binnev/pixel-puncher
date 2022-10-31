@@ -1,6 +1,7 @@
 import pygame
 
 from robingame.input import EventQueue
+from robingame.input.visualization import GamecubeControllerVisualizer
 from robingame.objects import Entity, Group
 
 from src import characters
@@ -21,13 +22,19 @@ class SandBox(Entity):
         self.gui_elements = Group()
         self.enemies = Group()
         self.players = Group()
-        self.child_groups = [self.levels, self.gui_elements]
+        self.child_groups = [
+            self.levels,
+            self.gui_elements,
+        ]
         self.state = self.state_setup
 
     def state_setup(self):
         self.level = Battlefield()
         self.levels.add(self.level)  # didn't pass a ref to self.
         self.players.add(char1(600, 500, input=self.game.controller0))
+        GamecubeControllerVisualizer(
+            x=0, y=0, input=self.game.controller0, groups=[self.gui_elements]
+        )
         self.enemies.add(char2(1000, 500, facing_right=False, input=self.game.controller1))
         self.level.add_character(*self.players, *self.enemies)
         self.state = self.state_main

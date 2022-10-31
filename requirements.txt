@@ -5,4 +5,4 @@ pytest
 coverage
 pytest-cov
 dataclasses-json
-robingame>=0.0.5
+robingame==0.0.10
