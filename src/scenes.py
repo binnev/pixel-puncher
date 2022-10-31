@@ -6,8 +6,8 @@ from robingame.objects import Entity, Group
 from src import characters
 from src.levels import Battlefield
 
-char1 = characters.MonkeyKing
-char2 = characters.Hawko
+char2 = characters.MonkeyKing
+char1 = characters.Hawko
 
 
 class SandBox(Entity):

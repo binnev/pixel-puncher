@@ -82,7 +82,7 @@ class Hawko(Character):
             )
 
     class ForwardAir(AerialMove):
-        landing_lag = 5
+        landing_lag = 11
 
         def __init__(self, character: Character):
             sweet_spot = Hitbox(
@@ -128,16 +128,16 @@ class Hawko(Character):
             super().__init__(character)
 
     class BackAir(AerialMove):
-        landing_lag = 5
+        landing_lag = 10
 
         def __init__(self, character: Character):
             sweet_spot = Hitbox(
                 owner=character,
-                x_offset=-30,
+                x_offset=-25,
                 y_offset=10,
-                width=40,
+                width=60,
                 height=30,
-                rotation=0,
+                rotation=-15,
                 base_knockback=10,
                 knockback_angle=150,
                 knockback_growth=10,
@@ -159,7 +159,7 @@ class Hawko(Character):
             weak_front = Hitbox(
                 owner=character,
                 x_offset=30,
-                y_offset=30,
+                y_offset=35,
                 width=40,
                 height=20,
                 rotation=-30,
@@ -185,14 +185,14 @@ class Hawko(Character):
             super().__init__(character)
 
     class UpAir(AerialMove):
-        landing_lag = 5
+        landing_lag = 9
 
         def __init__(self, character: Character):
             first_hit = Hitbox(
                 owner=character,
-                y_offset=-30,
-                width=50,
-                height=70,
+                y_offset=-25,
+                width=40,
+                height=60,
                 rotation=0,
                 base_knockback=10,
                 knockback_angle=90,
@@ -202,9 +202,9 @@ class Hawko(Character):
             )
             second_hit = Hitbox(
                 owner=character,
-                y_offset=-30,
-                width=50,
-                height=70,
+                y_offset=-25,
+                width=40,
+                height=60,
                 rotation=0,
                 base_knockback=10,
                 knockback_angle=90,
@@ -225,12 +225,13 @@ class Hawko(Character):
             super().__init__(character)
 
     class DownAir(AerialMove):
-        landing_lag = 5
+        landing_lag = 9
 
         def __init__(self, character: Character):
             sweet_spot = Hitbox(
                 owner=character,
-                y_offset=30,
+                x_offset=25,
+                y_offset=35,
                 width=40,
                 height=40,
                 rotation=0,
@@ -242,10 +243,11 @@ class Hawko(Character):
             )
             sour_spot = Hitbox(
                 owner=character,
-                y_offset=0,
+                x_offset=15,
+                y_offset=15,
                 width=60,
-                height=60,
-                rotation=0,
+                height=80,
+                rotation=15,
                 base_knockback=5,
                 knockback_angle=280,
                 knockback_growth=7,
@@ -256,14 +258,14 @@ class Hawko(Character):
             images = sprite.images
 
             self.frame_mapping = [
-                {"image": images[0], "hitboxes": [sweet_spot]},
-                {"image": images[1], "hitboxes": [sweet_spot]},
-                {"image": images[2], "hitboxes": [sweet_spot]},
-                {"image": images[3], "hitboxes": [sweet_spot]},
-                {"image": images[0], "hitboxes": [sour_spot]},
-                {"image": images[1], "hitboxes": [sour_spot]},
-                {"image": images[2], "hitboxes": [sour_spot]},
-                {"image": images[3], "hitboxes": [sour_spot]},
+                {"image": images[0], "hitboxes": [sweet_spot,sour_spot]},
+                {"image": images[1], "hitboxes": [sweet_spot,sour_spot]},
+                {"image": images[2], "hitboxes": [sweet_spot,sour_spot]},
+                {"image": images[3], "hitboxes": [sweet_spot,sour_spot]},
+                {"image": images[0], "hitboxes": [sweet_spot,sour_spot]},
+                {"image": images[1], "hitboxes": [sweet_spot,sour_spot]},
+                {"image": images[2], "hitboxes": [sweet_spot,sour_spot]},
+                {"image": images[3], "hitboxes": [sweet_spot,sour_spot]},
                 {"image": images[0], "hitboxes": []},
                 {"image": images[1], "hitboxes": []},
                 {"image": images[2], "hitboxes": []},
@@ -272,15 +274,15 @@ class Hawko(Character):
             super().__init__(character)
 
     class NeutralAir(AerialMove):
-        landing_lag = 5
+        landing_lag = 7
 
         def __init__(self, character: Character):
             sweet_spot = Hitbox(
                 owner=character,
-                x_offset=30,
-                y_offset=20,
-                width=70,
-                height=50,
+                x_offset=25,
+                y_offset=17,
+                width=50,
+                height=30,
                 rotation=0,
                 base_knockback=10,
                 knockback_angle=30,
@@ -289,10 +291,10 @@ class Hawko(Character):
             )
             sour_spot = Hitbox(
                 owner=character,
-                x_offset=30,
-                y_offset=20,
-                width=70,
-                height=50,
+                x_offset=25,
+                y_offset=17,
+                width=50,
+                height=30,
                 rotation=0,
                 base_knockback=5,
                 knockback_angle=45,
@@ -302,11 +304,11 @@ class Hawko(Character):
             )
             back_weak = Hitbox(
                 owner=character,
-                x_offset=-30,
-                y_offset=20,
+                x_offset=-15,
+                y_offset=30,
                 width=40,
-                height=50,
-                rotation=-45,
+                height=30,
+                rotation=0,
                 base_knockback=5,
                 knockback_angle=135,
                 knockback_growth=5,
