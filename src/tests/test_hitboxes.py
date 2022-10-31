@@ -140,7 +140,7 @@ def test_owner_position_inheritance():
     assert h1.y == 30
 
 
-@patch("fighting_game.hitboxes.Hitbox.handle_hit")
+@patch("src.hitboxes.Hitbox.handle_hit")
 def test_handle_hits(mock):
     entity = MockPhysicalEntity()
     entity.rect = Rect(0, 0, 10, 10)
@@ -172,7 +172,7 @@ def test_handle_hits(mock):
         ("h1", "h2", "h3"),
     ],
 )
-@patch("fighting_game.hitboxes.Hitbox.handle_hit")
+@patch("src.hitboxes.Hitbox.handle_hit")
 def test_handle_hits_sibling_hitboxes_simultaneous(mock, hitbox_names):
     entity = MockPhysicalEntity()
     entity.rect = Rect(0, 0, 10, 10)
@@ -202,7 +202,7 @@ def test_handle_hits_sibling_hitboxes_simultaneous(mock, hitbox_names):
     assert (h3, entity) in hit_handler.handled
 
 
-@patch("fighting_game.hitboxes.Hitbox.handle_hit")
+@patch("src.hitboxes.Hitbox.handle_hit")
 def test_handle_hits_sibling_hitboxes_later(mock):
     entity = MockPhysicalEntity()
     entity.rect = Rect(0, 0, 10, 10)
