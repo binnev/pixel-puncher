@@ -16,7 +16,7 @@ class MonkeyKing(Character):
     color = Color("cyan")
     ground_acceleration = 6
     walk_speed = 5
-    run_speed = 9
+    run_speed = 10
     initial_dash_duration = 16
     run_turnaround_duration = 10
     air_acceleration = 0.75
@@ -29,7 +29,7 @@ class MonkeyKing(Character):
     friction = 0.8
     fall_speed = 10
     fast_fall_speed = 18
-    jumpsquat_frames = 7
+    jumpsquat_frames = 5
     max_aerial_jumps = 1
     max_air_dodges = 1
     max_wall_jumps = 1
@@ -103,7 +103,7 @@ class MonkeyKing(Character):
                 base_knockback=10,
                 knockback_angle=45,
                 knockback_growth=10,
-                damage=15,
+                damage=16,
             )
             spike = Hitbox(
                 owner=character,
@@ -115,7 +115,7 @@ class MonkeyKing(Character):
                 base_knockback=20,
                 knockback_angle=-80,
                 knockback_growth=15,
-                damage=15,
+                damage=16,
                 higher_priority_sibling=wap,
             )
             wap2 = Hitbox(
@@ -128,7 +128,7 @@ class MonkeyKing(Character):
                 base_knockback=20,
                 knockback_angle=10,
                 knockback_growth=10,
-                damage=15,
+                damage=16,
                 higher_priority_sibling=spike,
             )
             sprite = character.sprites[f"fair_{character.facing}"]
@@ -150,7 +150,7 @@ class MonkeyKing(Character):
             super().__init__(character)
 
     class BackAir(AerialMove):
-        landing_lag = 5
+        landing_lag = 7
 
         def __init__(self, character: Character):
             sweet_spot = Hitbox(
@@ -163,7 +163,7 @@ class MonkeyKing(Character):
                 base_knockback=10,
                 knockback_angle=170,
                 knockback_growth=10,
-                damage=10,
+                damage=13,
             )
             sour_spot = Hitbox(
                 owner=character,
@@ -175,7 +175,7 @@ class MonkeyKing(Character):
                 base_knockback=5,
                 knockback_angle=135,
                 knockback_growth=5,
-                damage=5,
+                damage=9,
                 higher_priority_sibling=sweet_spot,
             )
             weak_front = Hitbox(
@@ -188,7 +188,7 @@ class MonkeyKing(Character):
                 base_knockback=3,
                 knockback_angle=45,
                 knockback_growth=2,
-                damage=5,
+                damage=9,
                 higher_priority_sibling=sour_spot,
             )
             sprite = character.sprites[f"bair_{character.facing}"]
@@ -206,7 +206,7 @@ class MonkeyKing(Character):
             super().__init__(character)
 
     class UpAir(AerialMove):
-        landing_lag = 2
+        landing_lag = 12
 
         def __init__(self, character: Character):
             zeroth_hit = Hitbox(
@@ -219,7 +219,7 @@ class MonkeyKing(Character):
                 base_knockback=10,
                 knockback_angle=80,
                 knockback_growth=15,
-                damage=10,
+                damage=14,
                 sound=sounds.smack,
             )
             first_hit = Hitbox(
@@ -232,7 +232,7 @@ class MonkeyKing(Character):
                 base_knockback=10,
                 knockback_angle=90,
                 knockback_growth=15,
-                damage=10,
+                damage=14,
                 sound=sounds.smack,
                 higher_priority_sibling=zeroth_hit,
             )
@@ -246,7 +246,7 @@ class MonkeyKing(Character):
                 base_knockback=10,
                 knockback_angle=90,
                 knockback_growth=15,
-                damage=10,
+                damage=14,
                 sound=sounds.smack,
                 higher_priority_sibling=first_hit,
             )
@@ -279,7 +279,7 @@ class MonkeyKing(Character):
                 base_knockback=10,
                 knockback_angle=270,
                 knockback_growth=15,
-                damage=20,
+                damage=16,
                 sound=sounds.bighit,
             )
             sweet_spot2 = Hitbox(
@@ -292,7 +292,7 @@ class MonkeyKing(Character):
                 base_knockback=10,
                 knockback_angle=270,
                 knockback_growth=15,
-                damage=20,
+                damage=16,
                 sound=sounds.bighit,
                 higher_priority_sibling=sweet_spot,
             )
@@ -306,7 +306,7 @@ class MonkeyKing(Character):
                 base_knockback=5,
                 knockback_angle=270,
                 knockback_growth=7,
-                damage=10,
+                damage=13,
                 sound=sounds.bighit,
                 higher_priority_sibling=sweet_spot2,
             )
@@ -332,7 +332,7 @@ class MonkeyKing(Character):
             super().__init__(character)
 
     class NeutralAir(AerialMove):
-        landing_lag = 2
+        landing_lag = 10
 
         def __init__(self, character: Character):
             front1 = Hitbox(
@@ -345,7 +345,7 @@ class MonkeyKing(Character):
                 base_knockback=10,
                 knockback_angle=45,
                 knockback_growth=10,
-                damage=10,
+                damage=12,
             )
             back1 = Hitbox(
                 owner=character,
@@ -357,7 +357,7 @@ class MonkeyKing(Character):
                 base_knockback=5,
                 knockback_angle=90 + 45,
                 knockback_growth=5,
-                damage=5,
+                damage=10,
                 higher_priority_sibling=front1,
             )
             front2 = Hitbox(
@@ -370,7 +370,7 @@ class MonkeyKing(Character):
                 base_knockback=5,
                 knockback_angle=45,
                 knockback_growth=5,
-                damage=5,
+                damage=12,
                 # higher_priority_sibling=back1,
             )
             back2 = Hitbox(
@@ -411,7 +411,7 @@ class MonkeyKing(Character):
                 base_knockback=15,
                 knockback_angle=95,
                 knockback_growth=8,
-                damage=8,
+                damage=11,
             )
             hit2 = Hitbox(
                 owner=character,
@@ -423,7 +423,7 @@ class MonkeyKing(Character):
                 base_knockback=15,
                 knockback_angle=95,
                 knockback_growth=8,
-                damage=8,
+                damage=11,
                 higher_priority_sibling=hit1,
             )
             hit3 = Hitbox(
@@ -436,7 +436,7 @@ class MonkeyKing(Character):
                 base_knockback=15,
                 knockback_angle=105,
                 knockback_growth=8,
-                damage=8,
+                damage=9,
                 higher_priority_sibling=hit2,
             )
             sprite = character.sprites[f"utilt_{character.facing}"]
@@ -465,7 +465,7 @@ class MonkeyKing(Character):
                 base_knockback=15,
                 knockback_angle=45,
                 knockback_growth=1,
-                damage=3,
+                damage=4,
                 sound=sounds.smack2,
             )
             sprite = character.sprites[f"jab_{character.facing}"]
@@ -551,7 +551,7 @@ class MonkeyKing(Character):
                 base_knockback=10,
                 knockback_angle=10,
                 knockback_growth=13,
-                damage=10,
+                damage=7,
                 sound=sounds.smack,
             )
             sour_spot = Hitbox(
@@ -564,7 +564,7 @@ class MonkeyKing(Character):
                 base_knockback=5,
                 knockback_angle=80,
                 knockback_growth=8,
-                damage=4,
+                damage=6,
                 higher_priority_sibling=sweet_spot,
                 sound=sounds.smack,
             )
