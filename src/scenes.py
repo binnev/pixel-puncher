@@ -8,7 +8,7 @@ from src import characters
 from src.levels import Battlefield
 
 char2 = characters.MonkeyKing
-char1 = characters.Hawko
+char1 = characters.Martha
 
 
 class SandBox(Entity):
@@ -31,11 +31,11 @@ class SandBox(Entity):
     def state_setup(self):
         self.level = Battlefield()
         self.levels.add(self.level)  # didn't pass a ref to self.
-        self.players.add(char1(600, 500, input=self.game.controller0))
+        self.players.add(char1(400, 500, input=self.game.controller0))
         GamecubeControllerVisualizer(
             x=0, y=0, input=self.game.controller0, groups=[self.gui_elements]
         )
-        self.enemies.add(char2(1000, 500, facing_right=False, input=self.game.controller1))
+        self.enemies.add(char2(600, 500, facing_right=False, input=self.game.controller1))
         self.level.add_character(*self.players, *self.enemies)
         self.state = self.state_main
 
@@ -43,10 +43,10 @@ class SandBox(Entity):
         from src.menus import MainMenu
 
         if not self.enemies:
-            self.enemies.add(char2(1000, 500, facing_right=False, input=self.game.controller1))
+            self.enemies.add(char2(600, 500, facing_right=False, input=self.game.controller1))
             self.level.add_character(*self.enemies)
         if not self.players:
-            self.players.add(char1(600, 500, input=self.game.controller0))
+            self.players.add(char1(400, 500, input=self.game.controller0))
             self.level.add_character(*self.players)
         for event in EventQueue.events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:

@@ -2,6 +2,10 @@
 - rolls
 - techs
 - b moves 
+- walking lol
+- sound mapping on moves 
+  - allows multiple sounds
+  - allows sounds not on frame 0
 - stocks (and stock counter)
 - double jump animations
 - controller thresholding (differentiate walk/run, run/crouch etc)

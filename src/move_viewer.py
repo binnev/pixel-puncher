@@ -19,8 +19,8 @@ class MoveViewer(Game):
     font_size = 50
     parental_name = "game"
     screen_color = pygame.Color("gray")
-    character_class = characters.Hawko
-    move_class = characters.Hawko.DashAttack
+    character_class = characters.Martha
+    move_class = characters.Martha.Jab
 
     def __init__(self):
         super().__init__()

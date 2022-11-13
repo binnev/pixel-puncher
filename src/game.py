@@ -1,10 +1,18 @@
+from pathlib import Path
+
 from robingame.input import GamecubeController
 from robingame.objects import Game
+from robingame.recording import record
 
 from src import conf
 from src.inputs import Keyboard0, Keyboard1
 
 
+@record(
+    n_frames=10 * 60,
+    output_dir=Path(__file__).parent.parent / "recordings",
+    processes=4,
+)
 class PixelPuncher(Game):
     fps = conf.FPS
     window_width = conf.SCREEN_WIDTH
