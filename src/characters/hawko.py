@@ -258,14 +258,14 @@ class Hawko(Character):
             images = sprite.images
 
             self.frame_mapping = [
-                {"image": images[0], "hitboxes": [sweet_spot,sour_spot]},
-                {"image": images[1], "hitboxes": [sweet_spot,sour_spot]},
-                {"image": images[2], "hitboxes": [sweet_spot,sour_spot]},
-                {"image": images[3], "hitboxes": [sweet_spot,sour_spot]},
-                {"image": images[0], "hitboxes": [sweet_spot,sour_spot]},
-                {"image": images[1], "hitboxes": [sweet_spot,sour_spot]},
-                {"image": images[2], "hitboxes": [sweet_spot,sour_spot]},
-                {"image": images[3], "hitboxes": [sweet_spot,sour_spot]},
+                {"image": images[0], "hitboxes": [sweet_spot, sour_spot]},
+                {"image": images[1], "hitboxes": [sweet_spot, sour_spot]},
+                {"image": images[2], "hitboxes": [sweet_spot, sour_spot]},
+                {"image": images[3], "hitboxes": [sweet_spot, sour_spot]},
+                {"image": images[0], "hitboxes": [sweet_spot, sour_spot]},
+                {"image": images[1], "hitboxes": [sweet_spot, sour_spot]},
+                {"image": images[2], "hitboxes": [sweet_spot, sour_spot]},
+                {"image": images[3], "hitboxes": [sweet_spot, sour_spot]},
                 {"image": images[0], "hitboxes": []},
                 {"image": images[1], "hitboxes": []},
                 {"image": images[2], "hitboxes": []},

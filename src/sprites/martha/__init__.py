@@ -16,6 +16,7 @@ martha_sprites = SpriteDict(
 )
 martha_sprites.register(crouch="crouch.png")
 martha_sprites.register(run="run.png")
+martha_sprites.register(walk="walk.png")
 martha_sprites.register(stand="stand.png")
 martha_sprites.register(fall="fall.png")
 martha_sprites.register(special_fall="run.png")

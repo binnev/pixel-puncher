@@ -11,6 +11,8 @@ from src import sounds
 from src.conf import BOUNCE_LOSS, INPUT_BUFFER
 from src.platforms import Platform
 
+WALK_THRESHOLD = 0.5
+
 
 class Character(PhysicalEntity):
     mass: float  # 10 is average
@@ -129,9 +131,6 @@ class Character(PhysicalEntity):
         self.air_dodges = self.max_air_dodges
         self.wall_jumps = self.max_wall_jumps
 
-        if self.airborne:
-            self.state = self.state_fall
-
         # B-button inputs
         input = self.input
         if input.B.buffered_presses(INPUT_BUFFER):
@@ -151,16 +150,42 @@ class Character(PhysicalEntity):
         self.allow_grounded_jump()
         self.allow_crouch()
         self.allow_dash()
-
+        self.allow_walk()
         self.allow_jab()
-
         self.allow_up_tilt()
         self.allow_down_tilt()
         self.allow_forward_tilt()
-
         self.allow_down_smash()
         self.allow_up_smash()
         self.allow_forward_smash()
+        self.allow_falling_off_edge()
+
+        self.grounded_physics()
+
+    def state_walk(self):
+        self.image = self.sprites["walk_" + self.facing].loop(self.animation_frame)
+        input = self.input
+        if input.LEFT:
+            self.facing_right = False
+            self.u = -self.walk_speed
+        elif input.RIGHT:
+            self.facing_right = True
+            self.u = self.walk_speed
+        else:
+            self.state = self.state_stand
+
+        self.allow_platform_drop()
+        self.allow_grounded_jump()
+        self.allow_crouch()
+        self.allow_dash()
+        self.allow_jab()
+        self.allow_up_tilt()
+        self.allow_down_tilt()
+        self.allow_forward_tilt()
+        self.allow_down_smash()
+        self.allow_up_smash()
+        self.allow_forward_smash()
+        self.allow_falling_off_edge()
 
         self.grounded_physics()
 
@@ -181,13 +206,12 @@ class Character(PhysicalEntity):
             else:
                 self.u = self.run_speed
             self.facing_right = True
-        if input.Y.is_pressed:
-            self.state = self.state_jumpsquat
         if input.DOWN:
             self.state = self.state_crouch
         if self.airborne:  # e.g. by walking off the edge of a platform
             self.state = self.state_fall
 
+        self.allow_jump()
         self.allow_up_smash()
         self.allow_down_smash()
         self.allow_forward_smash()
@@ -329,19 +353,17 @@ class Character(PhysicalEntity):
                 self.tick = 0
             self.facing_right = True
             self.u = self.run_speed
-        if input.Y.is_pressed:
-            self.state = self.state_jumpsquat
         if input.DOWN:
             self.state = self.state_crouch
-        if self.airborne:  # e.g. by walking off the edge of a platform
-            self.state = self.state_fall
         if self.tick == self.initial_dash_duration:
             self.state = self.state_run
 
+        self.allow_jump()
         self.allow_up_smash()
         self.allow_down_smash()
         self.allow_forward_smash()
         self.allow_dash_attack()
+        self.allow_falling_off_edge()
 
         self.grounded_physics()
 
@@ -389,8 +411,6 @@ class Character(PhysicalEntity):
     def state_crouch(self):
         self.image = self.sprites["crouch_" + self.facing].play_once(self.animation_frame)
         input = self.input
-        if self.airborne:
-            self.state = self.state_fall
         if not input.DOWN:
             self.state = self.state_stand
 
@@ -401,6 +421,7 @@ class Character(PhysicalEntity):
         self.allow_down_smash()
         self.allow_up_smash()
         self.allow_forward_smash()
+        self.allow_falling_off_edge()
 
         self.grounded_physics()
 
@@ -700,6 +721,10 @@ class Character(PhysicalEntity):
         self.hitpause_duration = hitbox.hitpause_duration
         self.enter_hitpause()
 
+    def allow_jump(self):
+        if self.input.Y.is_pressed:
+            self.state = self.state_jumpsquat
+
     def allow_fastfall(self):
         input = self.input
         if input.DOWN.buffered_presses(INPUT_BUFFER) and self.v > 0 and not self.fast_fall:
@@ -805,6 +830,10 @@ class Character(PhysicalEntity):
             self.state = self.state_wall_jumpsquat
             return True
 
+    def allow_falling_off_edge(self):
+        if self.airborne:
+            self.state = self.state_fall
+
     def allow_air_dodge(self):
         if (
             self.input.R.buffered_presses(INPUT_BUFFER)
@@ -813,8 +842,12 @@ class Character(PhysicalEntity):
             self.air_dodge()
 
     def allow_dash(self):
-        if self.input.LEFT.is_pressed or self.input.RIGHT.is_pressed:
+        if self.input.LEFT.is_smashed or self.input.RIGHT.is_smashed:
             self.state = self.state_initial_dash
+
+    def allow_walk(self):
+        if self.input.LEFT.value > WALK_THRESHOLD or self.input.RIGHT.value > WALK_THRESHOLD:
+            self.state = self.state_walk
 
     def allow_crouch(self):
         if self.input.DOWN:

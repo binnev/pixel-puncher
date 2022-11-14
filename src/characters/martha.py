@@ -15,7 +15,7 @@ class Martha(Character):
     height = 100
     color = Color("cyan")
     ground_acceleration = 6
-    walk_speed = 5
+    walk_speed = 7
     run_speed = 10
     initial_dash_duration = 20
     run_turnaround_duration = 10
@@ -494,7 +494,7 @@ class Martha(Character):
                 knockback_growth=1,
                 damage=4,
                 sound=sounds.sword_hit2,
-                higher_priority_sibling=h2
+                higher_priority_sibling=h2,
             )
             sprite = character.sprites[f"jab_{character.facing}"]
             images = sprite.images
